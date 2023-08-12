@@ -7,9 +7,18 @@ const RegisterSchema = joi.object().keys({
     email: joi.string().required().email(),
     password: joi.string().min(6).required(),
     confirm_password: joi.any().equal(joi.ref('password'))
-    .required()
-    .label('Confirm password')
-    .message({'any.only': '{{#label}} does not match'}),
-    licenseNo: joi.string().max(11).required(),
-    specialty: joi.string().required()
+        .required()
+        .label('Confirm password')
+        .message({ 'any.only': '{{#label}} does not match' }),
+    phoneNumber: joi.string().required()
 })
+
+const LoginSchema = joi.object().keys({
+    email: joi.string().required().email(),
+    password: joi.string().min(6).required()
+})
+
+module.exports = {
+    RegisterSchema,
+    LoginSchema
+}

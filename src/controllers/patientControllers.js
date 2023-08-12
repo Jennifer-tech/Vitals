@@ -37,3 +37,28 @@ exports.register = async (req, res) => {
     }
 };
 
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+
+    try{
+        const existingPatient = await patientModel.findOne({
+            email: email,
+            deleted: false
+        })
+        if(!existingPatient) return res.status(400).json({ message: "Patient does not exist" });
+        
+        const checkPassword = await existingPatient.matchPassword(password)
+        if(!checkPassword)
+        return res.status(400).json({ message: "Incorrect Password" })
+
+        const token = encode_jwt({ _id: existingPatient._id, path: "patient" })
+
+        res.status(200).json({
+            token: token,
+            Token_type: "Bearer",
+            patient_ID: existingPatient._id
+        });
+    } catch(error) {
+        res.status(500).jso({ message: error.message})
+    }
+}
