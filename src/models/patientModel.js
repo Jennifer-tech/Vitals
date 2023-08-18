@@ -83,7 +83,7 @@ const patientSchema = new mongoose.Schema({
 );
 
 // Encrypt password befor pushing to database
-patientSchema.pre('save', function(next){
+patientSchema.pre('save', async function(next){
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt)
     next()

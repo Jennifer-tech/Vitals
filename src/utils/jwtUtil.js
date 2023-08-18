@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwt_decode = require('jtw-decode')
+const jwt_decode = require('jwt-decode')
 require('dotenv').config()
 
 // encode the jwt

@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const errorHandler = require('./src/middlewares/errorMiddleware')
+const router = require('./src/routes/indexRoute')
 
 const app = express()
 require('dotenv').config()
@@ -9,6 +11,9 @@ app.use(express.json())
 
 
 app.use('/vitals', router)
+
+// Error handler
+app.use(errorHandler)
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI_OFFLINE, {
