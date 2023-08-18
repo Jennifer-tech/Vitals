@@ -62,4 +62,5 @@ healthCareProviderSchema.methods.toJSON = function(){
 }
 
 const HCPModel = mongoose.model('HealthCareProvider', healthCareProviderSchema)
-exports.model = HCPModel
+
+module.exports = HCPModel

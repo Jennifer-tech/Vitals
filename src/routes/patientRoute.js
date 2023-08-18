@@ -13,3 +13,5 @@ const {
 
 router.post('/register', validate(LoginSchema),login);
 router.post("/register", validate(RegisterSchema), register);
+
+module.exports = router
