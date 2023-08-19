@@ -95,3 +95,55 @@ exports.updatePatient = async (req, res) => {
         res.status(401).son({ success: false, message: error.message })
     }
 }
+
+// Delete a patient
+exports.deletePatient = async (req, res) => {
+    const _id = req.user 
+    try{
+        const existingPatient = await patientService.findOne({ _id , deleted: false})
+        if (!existingPatient)
+        return res.status(404).json({ message: "Patient does not exist" });
+
+        await patientService.update(req.user, {deleted: true})
+
+        return res.status(200).json({
+            success: true,
+            message: "Patient deleted successfully",
+        });
+    } catch (error) {
+        res.status(403).son({ success: false, message: error.message})
+    }
+}
+
+// Fetch a single patient by ID
+exports.getPatientByID = async (req, res) => {
+    try{
+        const myProfile = await patientService.findOne({
+            _id: req.params.id,
+            deleted: false
+        });
+        return res.status(201).json({
+            success: true,
+            message: "User fetched successfully",
+            data: myProfile
+        });
+    } catch (error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+
+// Fetch all patients in the db
+exports.fetchAllPatients = async (req, res) => {
+    try{
+        // Find all the users in the system excluding the deleted ones
+        const existingUser = await patientService.getAll({ deleted: false })
+        res.status(200).json({
+            success: true,
+            message: 'User fetched successfully',
+            data: existingUser,
+        })
+    } catch(error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+
