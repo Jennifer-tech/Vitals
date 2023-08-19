@@ -147,3 +147,20 @@ exports.fetchAllPatients = async (req, res) => {
     }
 }
 
+// Get my profile
+exports.getMyProfile = async (req, res) => {
+    try {
+        const myProfile = await patientService.findOne({
+            _id: req.user,
+            deleted: false
+        })
+
+        res.status(201).json({
+            success: true,
+            message: "User fetched successfully",
+            data: myProfile,
+        })
+    } catch (error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
