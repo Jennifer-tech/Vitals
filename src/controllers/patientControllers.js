@@ -131,3 +131,19 @@ exports.getPatientByID = async (req, res) => {
         res.status(403).json({ success: false, message: error.message })
     }
 }
+
+// Fetch all patients in the db
+exports.fetchAllPatients = async (req, res) => {
+    try{
+        // Find all the users in the system excluding the deleted ones
+        const existingUser = await patientService.getAll({ deleted: false })
+        res.status(200).json({
+            success: true,
+            message: 'User fetched successfully',
+            data: existingUser,
+        })
+    } catch(error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+

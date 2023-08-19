@@ -8,10 +8,21 @@ const {
 } = require('../schemas/patientSchema')
 const {
     register,
-    login
+    login,
+    deletePatient,
+    updatePatient,
+    fetchAllPatients,
+    getPatientByID
 } = require('../controllers/patientControllers')
 
-router.post('/register', validate(LoginSchema),login);
+router.post('/login', validate(LoginSchema), login);
 router.post("/register", validate(RegisterSchema), register);
+router.patch('/', validate(UpdateSchema), isAuth, updatePatient)
+router.delete('/', isAuth, deletePatient);
+router.get('/all', isAuth, fetchAllPatients);
+router.get('/', isAuth, getMyProfile);
+
+// Global Search
+router.get("/:id", getPatientByID)
 
 module.exports = router
