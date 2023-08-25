@@ -7,3 +7,4 @@ const { createSchema } = require('../schemas/vitalsSchema')
 const { createVital } = require('../controllers/vitalsController')
 
 router.post('/:id', validate(createSchema), isAuth, doctorAuth, createVital);
+router.get("/:vitalID", isAuth, getVitalByID);

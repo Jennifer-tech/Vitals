@@ -70,7 +70,7 @@ exports.updatePatient = async (req, res) => {
     try {
         // check if selected email is already taken
         if (updateData.email) {
-            const emailAvailable = await patientService.findOne({ email: updateData.email, deleted: false })
+            const emailAvailable = await patientModel.findOne({ email: updateData.email, deleted: false })
 
             if (emailAvailable) {
                 return res.status(403).json({ success: false, message: "User with updated email already exists" })
@@ -84,7 +84,7 @@ exports.updatePatient = async (req, res) => {
             }
         }
 
-        const updatedData = await patientService.update(req.user, { ...updateData, profile_img })
+        const updatedData = await patientModel.findByIdAndUpdate(req.user, { ...updateData, profile_img })
 
         res.status(200).json({
             success: true,
@@ -100,7 +100,7 @@ exports.updatePatient = async (req, res) => {
 exports.deletePatient = async (req, res) => {
     const _id = req.user 
     try{
-        const existingPatient = await patientService.findOne({ _id , deleted: false})
+        const existingPatient = await patientModel.findById({ _id , deleted: false})
         if (!existingPatient)
         return res.status(404).json({ message: "Patient does not exist" });
 
@@ -118,7 +118,7 @@ exports.deletePatient = async (req, res) => {
 // Fetch a single patient by ID
 exports.getPatientByID = async (req, res) => {
     try{
-        const myProfile = await patientService.findOne({
+        const myProfile = await patientModel.findById({
             _id: req.params.id,
             deleted: false
         });
@@ -136,7 +136,7 @@ exports.getPatientByID = async (req, res) => {
 exports.fetchAllPatients = async (req, res) => {
     try{
         // Find all the users in the system excluding the deleted ones
-        const existingUser = await patientService.getAll({ deleted: false })
+        const existingUser = await patientModel.find({ deleted: false })
         res.status(200).json({
             success: true,
             message: 'User fetched successfully',
@@ -150,7 +150,7 @@ exports.fetchAllPatients = async (req, res) => {
 // Get my profile
 exports.getMyProfile = async (req, res) => {
     try {
-        const myProfile = await patientService.findOne({
+        const myProfile = await patientModel.findOne({
             _id: req.user,
             deleted: false
         })
