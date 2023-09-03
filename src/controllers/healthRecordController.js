@@ -35,3 +35,20 @@ exports.approveHealthRecord = async (req, res) => {
     }
 }
 
+// Cancel HealthRecord as a Doctor
+exports.cancelHealthRecord = async (req, res) => {
+    const healthRecordID = req.body
+    try {
+        // Update the HCP ref
+        await healthRecordService.update({
+            _id: healthRecordID
+        },
+            {
+                "$set": { approvalState: true, status: "Cancelled", deleted: true }
+            })
+        return res.status(200).json({ Success: true, message: "This healthRecord has been Cancelled" })
+
+    } catch (error) {
+        res.status(500).json({ "Success": false, "message": error.message });
+    }
+}
