@@ -7,5 +7,6 @@ const { createHealthRecord } = require('../controllers/healthRecordController');
 
 // HealthRecord CRUD and Queries
 router.post('/create', validate(createSchema), iAuth, doctorAuth, createHealthRecord);
+router.get('/:id', isAuth, doctorAuth, aprroveHealthRecord)
 
 module.exports = router
