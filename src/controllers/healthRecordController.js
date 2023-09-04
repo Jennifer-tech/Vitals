@@ -121,3 +121,23 @@ exports.getAllDoctorsPatients = async (req, res) => {
         res.status(403).json({ success: false, message: error.message })
     }
 }
+
+// Fetch all healthRecord for healthCareProvider
+exports.getAllHCPhealthRecords = async (req, res) => {
+    const HCP_id = req.user
+
+    try {
+        const Data = await healthRecordService.getAll({ HCP_id })
+
+        return res.status(201).json({
+            success: true,
+            message: 'Patient healthRecords fetched successfully',
+            Total_Count: Data.length,
+            HealthRecords: Data
+        })
+    } catch (error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+
+
