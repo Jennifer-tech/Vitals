@@ -173,9 +173,29 @@ exports.getAllHCPsPatients = async (req, res) => {
     }
 }
 
+// yet to write the route for it
 // Fetch all healthRecord for healthCareProvider
 exports.getAllPatientHealthRecord = async (req, res) => {
     const patient_id = req.user
+
+    try {
+        const Data = await healthRecordService.getAll({ patient_id })
+
+        return res.status(201).json({
+            success: true,
+            message: 'Patient healthRecords fetched successfully',
+            Total_Count: Data.length,
+            HealthRecords: Data.reverse()
+        })
+    } catch (error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+
+// Fetch all healthRecord for healthCareProvider
+exports.docGetAllPatientHealthRecord = async (req, res) => {
+    const doctor_id = req.user
+    const patient_id = req.params.id
 
     try {
         const Data = await healthRecordService.getAll({ patient_id })

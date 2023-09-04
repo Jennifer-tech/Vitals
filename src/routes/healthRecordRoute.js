@@ -4,7 +4,7 @@ const { doctorAuth } = require('../middlewares/pathMiddleware')
 const { createSchema } = require('../schemas/healthRecordSchema')
 
 const { createHealthRecord,
-        aprroveHealthRecord,
+        approveHealthRecord,
         getAllDoctorHealthRecords
  } = require('../controllers/healthRecordController');
 
@@ -14,6 +14,8 @@ router.delete("/:id", isAuth, doctorAuth, cancelHealthRecord);
 
 router.get("/all", isAuth, doctorAuth, getAllDoctorHealthRecords);
 router.get("/patients", isAuth, doctorAuth, getAllDoctorsPatients);
+
+router.get("/patients/:id/healthRecord", isAuth, doctorAuth, docGetAllPatientHealthRecord);
 
 router.get("/pending", isAuth, doctorAuth, getUnattendedHealthRecords);
 router.get("/:id", isAuth, doctorAuth, approveHealthRecord);
