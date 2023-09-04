@@ -52,3 +52,72 @@ exports.cancelHealthRecord = async (req, res) => {
         res.status(500).json({ "Success": false, "message": error.message });
     }
 }
+
+// Fetch all healthRecord for doctor
+exports.getAllDoctorHealthRecords = async (req, res) => {
+    const doctor_id = req.user
+
+    try {
+        const healthRecordData = await healthRecordService.getAll({ doctor_id })
+
+        return res.status(201).json({
+            success: true,
+            message: 'Patient healthRecord fetched successfully',
+            total: healthRecordData.length,
+            totalhealthRecords: healthRecordData,
+        })
+    } catch (error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+
+// Fetch all unattended healthRecord for doctor
+exports.getUnattendedHealthRecords = async (req, res) => {
+    const doctor_id = req.user
+
+    try {
+        const healthRecordData = await healthRecordService.getAll({ doctor_id, approvalState: false })
+
+        return res.status(201).json({
+            success: true,
+            message: 'Patient healthRecord fetched successfully',
+            totalhealthRecords: healthRecordData.length,
+            totalhealthRecords: healthRecordData,
+        })
+    } catch (error) {
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
+
+// fetch all patient under a doctor 
+exports.getAllDoctorsPatients = async (req, res) => {
+    const doctor_id = req.user
+
+    try{
+        const healthRecordData = await healthRecordModel.find({ doctor_id })
+
+        // Make a for loop from the healthRecordData and appends the patient id to the patient_id list
+        var patient_id = [];
+        for(let i = 0; i < healthRecordData.length; i++) {
+            patient_id.push(healthRecordData[i].patient_id.toString())
+        }
+
+        // removing duplicate id
+        const patients = [...new Set(patient_id)];
+
+        // Makes a for loop from the patient_id to get the doctor with their id then appends to the patient_details list
+        var patient_details = [];
+        for(let i = 0; i < patients.length; i++){
+            const existingPatient = await patientService.findOne({ _id: patients[i], deleted: false })
+            patient_details.push(existingPatient)
+        }
+        return res.status(201).json({
+            success: true,
+            message: 'Patient healthRecord fetched successfully',
+            totalNo: patient_details.length,
+            totalPatients: patient_details
+        })
+    } catch (error){
+        res.status(403).json({ success: false, message: error.message })
+    }
+}
