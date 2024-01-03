@@ -4,7 +4,8 @@ const { isAuth } = require('../middlewares/authenticationMiddleware')
 const { patientAuth } = require('../middlewares/pathMiddleware')
 const {
     RegisterSchema,
-    LoginSchema
+    LoginSchema,
+    UpdateSchema
 } = require('../schemas/patientSchema')
 const {
     register,
@@ -12,7 +13,8 @@ const {
     deletePatient,
     updatePatient,
     fetchAllPatients,
-    getPatientByID
+    getPatientByID,
+    getMyProfile
 } = require('../controllers/patientControllers')
 
 router.post('/login', validate(LoginSchema), login);

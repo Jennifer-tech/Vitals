@@ -19,7 +19,22 @@ const LoginSchema = joi.object().keys({
     password: joi.string().min(6).required()
 })
 
+const UpdateSchema = joi.object().keys({
+    firstName: joi.string(),
+    middleName: joi.string(),
+    lastName: joi.string(),
+    phoneNumber: joi.string(),
+    address: joi.string(),
+    bio: joi.string(),
+    height: joi.string(),
+    weight: joi.string(),
+    blood_group: joi.string(),
+    genotype: joi.string(), 
+    profile_img: joi.string(),
+})
+
 module.exports = {
     RegisterSchema,
-    LoginSchema
+    LoginSchema,
+    UpdateSchema
 }
