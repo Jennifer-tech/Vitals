@@ -2,14 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const errorHandler = require('./src/middlewares/errorMiddleware')
 const router = require('./src/routes/indexRoute')
+const formData = require("express-form-data")
 
 const app = express()
 require('dotenv').config()
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+app.use(formData.parse())
 
-
+app.use(require("cors")()) 
 app.use('/vitals', router)
 
 // Error handler

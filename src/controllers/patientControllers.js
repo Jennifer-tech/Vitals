@@ -1,6 +1,6 @@
 const patientModel = require('../models/patientModel')
 const { storeImage } = require('../utils/cloudinaryUtil')
-const { sendMail } = require('../utils/')
+// const { sendMail } = require('../utils/')
 
 exports.register = async (req, res) => {
     const patientInfo = req.body

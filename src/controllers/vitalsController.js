@@ -1,5 +1,5 @@
 const vitalsModel = require('../models/vitalsModel')
-const vitalsService = require('../services/vitals.service')
+// const vitalsService = require('../services/vitalsService')
 
 exports.createVital = async(req, res) => {
     const patientID = req.params.id

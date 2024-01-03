@@ -1,11 +1,16 @@
-const  validate = require('../middleware/validateMiddleware')
+const router = require('express').Router();
+const  validate = require('../middlewares/validateMiddleware')
 const { isAuth } = require('../middlewares/authenticationMiddleware')
 const { doctorAuth } = require('../middlewares/pathMiddleware')
 const { createSchema } = require('../schemas/healthRecordSchema')
 
 const { createHealthRecord,
         approveHealthRecord,
-        getAllDoctorHealthRecords
+        getAllDoctorHealthRecords,
+        cancelHealthRecord,
+        getAllDoctorsPatients,
+        docGetAllPatientHealthRecord,
+        getUnattendedHealthRecords,
  } = require('../controllers/healthRecordController');
 
 // HealthRecord CRUD and Queries
